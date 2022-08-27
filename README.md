@@ -1,4 +1,4 @@
-# UniStringExtensionMethods
+# Kogane String Extension Methods
 
 string 型の拡張メソッド
 
