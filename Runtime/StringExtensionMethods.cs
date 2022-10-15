@@ -334,7 +334,7 @@ namespace Kogane
                 charIndex: 0
             );
 
-            return new string( shiftJisChars );
+            return new( shiftJisChars );
 #else
 			return unicodeStrings;
 #endif
