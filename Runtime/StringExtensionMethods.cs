@@ -396,5 +396,40 @@ namespace Kogane
 
             return true;
         }
+
+        public static string ReplaceFirst
+        (
+            this string self,
+            string      oldValue,
+            string      newValue
+        )
+        {
+            var startIndex = self.IndexOf( oldValue );
+
+            if ( startIndex == -1 ) return self;
+
+            return self
+                    .Remove( startIndex, oldValue.Length )
+                    .Insert( startIndex, newValue )
+                ;
+        }
+
+        public static string ReplaceFirst
+        (
+            this string      self,
+            string           oldValue,
+            string           newValue,
+            StringComparison comparisonType
+        )
+        {
+            var startIndex = self.IndexOf( oldValue, comparisonType );
+
+            if ( startIndex == -1 ) return self;
+
+            return self
+                    .Remove( startIndex, oldValue.Length )
+                    .Insert( startIndex, newValue )
+                ;
+        }
     }
 }
