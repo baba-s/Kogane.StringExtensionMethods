@@ -58,6 +58,14 @@ namespace Kogane
         }
 
         /// <summary>
+        /// コレクションを空文字で連結して返します
+        /// </summary>
+        public static string ConcatWith<T>( this IEnumerable<T> self )
+        {
+            return string.Join( "", self );
+        }
+
+        /// <summary>
         /// コレクションを指定した文字で連結して返します
         /// </summary>
         public static string ConcatWith<T>( this IEnumerable<T> self, string separator )
@@ -71,6 +79,14 @@ namespace Kogane
         public static string ConcatWithNewLine<T>( this IEnumerable<T> self )
         {
             return self.ConcatWith( "\n" );
+        }
+
+        /// <summary>
+        /// コレクションを `,` で連結して返します
+        /// </summary>
+        public static string ConcatWithComma<T>( this IEnumerable<T> self )
+        {
+            return self.ConcatWith( "," );
         }
 
         /// <summary>
@@ -430,6 +446,100 @@ namespace Kogane
                     .Remove( startIndex, oldValue.Length )
                     .Insert( startIndex, newValue )
                 ;
+        }
+
+        public static string ReplaceIf
+        (
+            this string self,
+            bool        conditional,
+            string      oldValue,
+            string      newValue
+        )
+        {
+            return conditional ? self.Replace( oldValue, newValue ) : self;
+        }
+
+        public static string ReplaceIf
+        (
+            this string      self,
+            bool             conditional,
+            string           oldValue,
+            string           newValue,
+            StringComparison comparisonType
+        )
+        {
+            return conditional ? self.Replace( oldValue, newValue, comparisonType ) : self;
+        }
+
+        public static string GetIfNotNullOrWhiteSpace( this string self, string defaultValue )
+        {
+            return self.IsNotNullOrWhiteSpace() ? self : defaultValue;
+        }
+
+        public static bool StartsWith
+        (
+            this string           self,
+            IReadOnlyList<string> values
+        )
+        {
+            for ( var i = 0; i < values.Count; i++ )
+            {
+                var value = values[ i ];
+                if ( self.StartsWith( value ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static bool StartsWith
+        (
+            this string           self,
+            IReadOnlyList<string> values,
+            StringComparison      comparisonType
+        )
+        {
+            for ( var i = 0; i < values.Count; i++ )
+            {
+                var value = values[ i ];
+                if ( self.StartsWith( value, comparisonType ) )
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public static string[] SplitByOneCharacter( this string self )
+        {
+            return self.Select( x => x.ToString() ).ToArray();
+        }
+
+        public static string[] SubstringAtCount( this string self, int count )
+        {
+            var result = new List<string>();
+            var length = ( int )Math.Ceiling( ( double )self.Length / count );
+
+            for ( var i = 0; i < length; i++ )
+            {
+                var start = count * i;
+                if ( self.Length <= start )
+                {
+                    break;
+                }
+
+                result.Add
+                (
+                    self.Length < start + count
+                        ? self.Substring( start )
+                        : self.Substring( start, count )
+                );
+            }
+
+            return result.ToArray();
         }
     }
 }
